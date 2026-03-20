@@ -14,9 +14,6 @@ struct PlayerView: View {
             // Top navigation bar
             topBar
 
-            // Upgrade banner
-            upgradeBanner
-
             // Scripture text display
             scriptureText
 
@@ -95,17 +92,6 @@ struct PlayerView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .background(Color(red: 0.45, green: 0.15, blue: 0.15))
-    }
-
-    // MARK: - Upgrade Banner
-
-    private var upgradeBanner: some View {
-        Text("Upgrade for $1.99 to listen offline")
-            .font(.subheadline)
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 8)
-            .background(Color(red: 0.8, green: 0.65, blue: 0.2))
     }
 
     // MARK: - Scripture Text

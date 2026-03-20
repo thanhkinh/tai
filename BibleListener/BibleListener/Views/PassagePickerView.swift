@@ -64,20 +64,45 @@ struct PassagePickerView: View {
         ScrollViewReader { proxy in
             List {
                 ForEach(Array(BibleData.books.enumerated()), id: \.element.id) { index, book in
-                    Button {
-                        selectedBook = book
-                        selectedChapter = 1
-                    } label: {
-                        HStack {
-                            Text(book.name)
-                                .foregroundColor(selectedBook?.id == book.id ? .primary : .primary)
-                                .fontWeight(selectedBook?.id == book.id ? .bold : .regular)
+                    VStack(spacing: 4) {
+                        Button {
+                            if selectedBook?.id != book.id {
+                                selectedBook = book
+                                selectedChapter = 1
+                            }
+                        } label: {
+                            HStack {
+                                Text(book.name)
+                                    .foregroundColor(.primary)
+                                    .fontWeight(selectedBook?.id == book.id ? .bold : .regular)
 
-                            Spacer()
+                                Spacer()
 
-                            Text("\(index + 1)")
-                                .foregroundColor(.secondary)
-                                .font(.subheadline)
+                                if selectedBook?.id != book.id {
+                                    Text("\(book.chapters)")
+                                        .foregroundColor(.secondary)
+                                        .font(.subheadline)
+                                }
+                            }
+                        }
+
+                        if selectedBook?.id == book.id, book.chapters > 1 {
+                            HStack(spacing: 8) {
+                                Text("Ch \(selectedChapter ?? 1)")
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                    .frame(width: 50, alignment: .leading)
+
+                                Slider(
+                                    value: Binding(
+                                        get: { Double(selectedChapter ?? 1) },
+                                        set: { selectedChapter = Int($0) }
+                                    ),
+                                    in: 1...Double(book.chapters),
+                                    step: 1
+                                )
+                            }
+                            .padding(.top, 4)
                         }
                     }
                     .listRowBackground(
